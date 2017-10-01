@@ -95,6 +95,8 @@ public abstract class AlbumHolder extends RecyclerView.ViewHolder {
         }
     }
 
+
+
     void loadImage(final ImageView image) {
         if (album.getAlbumItems().size() == 0) {
             Glide.with(getContext())
@@ -104,7 +106,10 @@ public abstract class AlbumHolder extends RecyclerView.ViewHolder {
             return;
         }
 
-        final AlbumItem coverImage = album.getAlbumItems().get(0);
+        final AlbumItem coverImage = (album.haveCover())
+                ? album.getCover()
+                : album.getAlbumItems().get(0);
+
         Glide.with(getContext())
                 .asBitmap()
                 .load(coverImage.getPath())

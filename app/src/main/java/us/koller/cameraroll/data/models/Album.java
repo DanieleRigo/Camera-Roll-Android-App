@@ -1,5 +1,6 @@
 package us.koller.cameraroll.data.models;
 
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -18,6 +19,8 @@ public class Album
 
     private ArrayList<AlbumItem> albumItems;
     private String path;
+
+    private AlbumItem cover;
 
     private int hidden = -1;
     public boolean excluded;
@@ -39,7 +42,21 @@ public class Album
         pinned = Provider.isAlbumPinned(getPath(),
                 Provider.getPinnedPaths());
 
+        File icon = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Icons",
+                getName() + ".png"
+        );
+        cover = icon.exists() ? AlbumItem.getInstance(icon.getAbsolutePath()) : null;
+
         return this;
+    }
+
+    public boolean haveCover() {
+        return cover != null;
+    }
+
+    public AlbumItem getCover() {
+        return cover;
     }
 
     public boolean isHidden() {
